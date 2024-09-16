@@ -12,7 +12,7 @@ io.on("connection",(socket) => { // Create the socket.io connection
     })
     
     socket.on("sendMsg", (data) => { // whent the event "sendMsg" is captured
-        socket.emit("showMsg", data); // send a new event called "showMsg"
+        io.emit("showMsg", data); // send a new event called "showMsg", using io instead of socket send the event to everyone connected in the server
         console.log(data);
     })
 })
