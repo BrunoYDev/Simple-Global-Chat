@@ -6,11 +6,38 @@
     <title>Simple Chat With Socket.IO</title>
 </head>
 <body>
+    <h1>Simple Socket.IO chat</h1>
+    <div id="chat">
 
+    </div>
+    <input type="text" name="" id="msg" placeholder="Your Message"><br>
+    <input type="text" name="" id="username" placeholder="Your UserName">
+    <button onclick="send()">Send Message</button>
 </body>
 <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
 <script>
     let socket = io("http://localhost:3000");
    
+    socket.on("disconnect", () => {
+        console.log("Disconnected from server");
+    })
+
+    socket.on("showMsg", (data) => {
+        console.log(data);
+        let chat = document.getElementById("chat");
+        let p = document.createElement("p");
+
+        p.innerHTML = "User: " + data.username + " : " + "Message: " + data.msg;
+
+        chat.append(p)
+    })
+
+    const send = () => {
+        let msg = document.getElementById("msg").value;
+        let username= document.getElementById("username").value;
+
+        socket.emit("sendMsg", {msg: msg, username: username});
+    }
+
 </script>
 </html>
